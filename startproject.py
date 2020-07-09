@@ -155,6 +155,8 @@ def write_coftest():
 def creating_venv():
     os.chdir(f"{app}")
     os.system("python3 -m venv .venv")
+    os.system(".venv/bin/pip install -q --upgrade pip")
+    os.system(".venv/bin/pip install -q -r requirements.txt")
 
 
 # Starting project #############################################################
