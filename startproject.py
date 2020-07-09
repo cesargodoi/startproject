@@ -11,7 +11,7 @@ def create_app():
 """
 
 # requirements-dev.py texts
-model_req_dev = """black
+model_requirements_dev = """black
 flake8
 flask-debugtoolbar
 flask-shell-ipython
@@ -101,7 +101,7 @@ def write_req():
 # requirements-dev.txt
 def write_req_dev():
     with open(f"{app}/requirements-dev.txt", "w") as arquivo:
-        arquivo.write(model_req_dev)
+        arquivo.write(model_requirements_dev)
 
 
 # Makefile
