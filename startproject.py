@@ -1,6 +1,8 @@
 import os
 import sys
 
+import models
+
 print("--- Start Flask Project ---\n")
 app = sys.argv
 
@@ -34,24 +36,16 @@ os.system(f"touch {app}/tests/conftest.py")
 # writing texts in app.py
 def contentapp():
     with open(f"{app}/{app}/app.py", "w") as arquivo:
-        arquivo.write(model_app)
+        arquivo.write(models.model_app)
 
 
-# models files
-model_app = """from flask import Flask
-
-def create_app():
-    app = Flask(__name__)
-    return app 
-"""
-contentapp()
-
-
+# writing texts in requirements.txt
 def contentreq():
     with open(f"{app}/requirements.txt", "w") as arquivo:
         arquivo.write("flask")
 
 
+contentapp()
 contentreq()
 
 # creating and activating virtual env
@@ -62,4 +56,4 @@ def creating_venv():
     os.system("pip install --upgrade pip")
 
 
-creating_venv()
+# creating_venv()
