@@ -30,3 +30,26 @@ os.system(f"touch {app}/requirements-dev.txt")
 os.system(f"touch {app}/setup.py")
 os.system(f"mkdir {app}/tests")
 os.system(f"touch {app}/tests/conftest.py")
+
+# writing texts in app.py
+def contentapp():
+    with open(f"{app}/{app}/app.py", "w") as arquivo:
+        arquivo.write(model_app)
+
+
+# models files
+model_app = """from flask import Flask
+
+def create_app():
+    app = Flask(__name__)
+    return app 
+"""
+contentapp()
+
+
+def contentreq():
+    with open(f"{app}/requirements.txt", "w") as arquivo:
+        arquivo.write("flask")
+
+
+contentreq()
