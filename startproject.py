@@ -76,13 +76,14 @@ model_setup = (
 
 
 # tests/conftest.py texts
-model_conftest = """import pytest
-from delivery.app import create_app\n
-@pytest.fixture(scope='module')
-def app():
-    '''Instance of Main flask app'''
-    return create_app()
-"""
+model_conftest = (
+    "import pytest\n\n"
+    f"from {app}.app import create_app\n\n"
+    "@pytest.fixture(scope='module')\n"
+    "def app():\n"
+    "    '''Instance of Main flask app'''\n"
+    "    return create_app()\n"
+)
 
 # defs #########################################################################
 
