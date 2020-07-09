@@ -1,7 +1,7 @@
 import os
-import sys
 
-# Models for files
+# Models for files #############################################################
+
 # app.py texts
 model_app = """from flask import Flask
 
@@ -35,8 +35,7 @@ model_makefile = """clean:
 \trm -rf htmlcov
 \trm -rf .tox/
 \trm -rf docs/_build
-\tpip install -e .[dev] --upgrade --no-cache
-\ninstall:
+\ninstall_dev:
 \tpip install -e .['dev']
 \ntest:
 \tpytest tests/ -v --cov=delivery
@@ -68,22 +67,7 @@ def app():
     return create_app()
 """
 
-
-# Starting project
-print("--- Start Flask Project ---\n")
-app = sys.argv
-
-if len(app) < 2:
-    print("!- Enter the name of the project.")
-    app = input().replace(" ", "_")
-elif len(app) > 2:
-    app = "_".join(app[1:])
-else:
-    app = app[1]
-
-while not app:
-    print("!- Enter the name of the project.")
-    app = input().replace(" ", "_")
+# defs #########################################################################
 
 # creating the directories extruture
 def dir_extrutures():
@@ -138,6 +122,28 @@ def write_coftest():
         arquivo.write(model_conftest)
 
 
+# creating and updating virtual env
+def creating_venv():
+    os.chdir(f"{app}")
+    os.system("python3 -m venv .venv")
+
+
+# Starting project #############################################################
+
+# getting the project name
+print("\n### Start Flask Project ###")
+app = ""
+while not app:
+    print("\nEnter the name of the project.")
+    app = input().replace(" ", "_")
+
+# whether or not to use a virtual environment
+print("Do you want to use the .venv? (Y/n)")
+venv = " "
+while venv not in ["Y", "y", "S", "s", "N", "n", ""]:
+    venv = input()
+venv = True if venv not in "Nn" or not venv else False
+
 print("1 - Creating the directories extruture ...")
 dir_extrutures()
 
@@ -149,12 +155,8 @@ write_makefile()
 write_setup()
 write_coftest()
 
-# creating and activating virtual env
-def creating_venv():
-    os.chdir(f"{app}")
-    os.system("python3 -m venv .venv")
-    os.system("source .venv/bin.activate")
-    os.system("pip install --upgrade pip")
+if venv:
+    print("3 - Creating virtual env (.venv) ...")
+    creating_venv()
 
-
-# creating_venv()
+print("\nAll done!")
