@@ -45,6 +45,12 @@ def contentreq():
         arquivo.write("flask")
 
 
+# writing texts in requirements-dev.txt
+def contentreq():
+    with open(f"{app}/requirements-dev.txt", "w") as arquivo:
+        arquivo.write(models.model_req_dev)
+
+
 contentapp()
 contentreq()
 

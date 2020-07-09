@@ -6,3 +6,16 @@ def create_app():
     return app 
 """
 
+
+# requirements-dev.py texts
+model_req_dev = """black
+flake8
+flask-debugtoolbar
+flask-shell-ipython
+ipdb
+ipython
+isort
+pytest
+pytest-flask
+pytest-cov
+"""
