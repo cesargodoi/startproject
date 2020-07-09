@@ -53,3 +53,13 @@ def contentreq():
 
 
 contentreq()
+
+# creating and activating virtual env
+def creating_venv():
+    os.chdir(f"{app}")
+    os.system("python3 -m venv .venv")
+    os.system("source .venv/bin.activate")
+    os.system("pip install --upgrade pip")
+
+
+creating_venv()
