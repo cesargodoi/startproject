@@ -50,7 +50,9 @@ makefile_model = """clean:
 \trm -rf htmlcov
 \trm -rf .tox/
 \trm -rf docs/_build
-\ninstall_dev:
+\ninstall:
+\tpip install -e .
+\ninstall-dev:
 \tpip install -e .['dev']
 \ntest:
 \tpytest tests/ -v --cov=delivery
@@ -190,6 +192,7 @@ write_req_dev()
 write_makefile()
 write_setup()
 write_coftest()
+write_test_app()
 
 if venv:
     print("3 - Creating virtual env (.venv) ...")
