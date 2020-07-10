@@ -17,16 +17,16 @@ venv = True if venv not in "Nn" or not venv else False
 
 # Models for files #############################################################
 
-# app.py texts
-model_app = """from flask import Flask
+# app.py (model)
+app_model = """from flask import Flask
 
 def create_app():
     app = Flask(__name__)
     return app 
 """
 
-# requirements-dev.py texts
-model_requirements_dev = """black
+# requirements-dev.py (model)
+requirements_dev_model = """black
 flake8
 flask-debugtoolbar
 flask-shell-ipython
@@ -38,8 +38,8 @@ pytest-flask
 pytest-cov
 """
 
-# Makefile texts
-model_makefile = """clean:
+# Makefile (model)
+makefile_model = """clean:
 \t@find ./ -name '*.pyc' -exec rm -f {} \;
 \t@find ./ -name 'Thumbs.db' -exec rm -f {} \;
 \t@find ./ -name '*~' -exec rm -f {} \;
@@ -56,8 +56,8 @@ model_makefile = """clean:
 \tpytest tests/ -v --cov=delivery
 """
 
-# setup.py texts
-model_setup = (
+# setup.py (model)
+setup_model = (
     "from setuptools import setup, find_packages\n\n"
     "def read(filename):\n"
     "    return [rq.strip() for rq in open(filename).readlines()]\n\n"
@@ -75,8 +75,8 @@ model_setup = (
 )
 
 
-# tests/conftest.py texts
-model_conftest = (
+# tests/conftest.py (model)
+conftest_model = (
     "import pytest\n\n"
     f"from {app}.app import create_app\n\n"
     "@pytest.fixture(scope='module')\n"
@@ -84,6 +84,17 @@ model_conftest = (
     "    '''Instance of Main flask app'''\n"
     "    return create_app()\n"
 )
+
+# tests/test_app.py (model)
+test_app_model = (
+    "def test_app_is_created(app):\n"
+    f"    assert app.name == '{app}.app'\n\n"
+    "def test_config_is_loaded(config):\n"
+    "    assert config['DEBUG'] is False\n\n"
+    "def test_request_returns_404(client):\n"
+    "    assert client.get('/some_invalid_route').status_code == 404\n"
+)
+
 
 # defs #########################################################################
 
@@ -113,13 +124,14 @@ def dir_extrutures():
     # app/app/tests
     os.system(f"mkdir {app}/tests")
     os.system(f"touch {app}/tests/conftest.py")
+    os.system(f"touch {app}/tests/test_app.py")
 
 
 # writing texts content in files
 # app.py
 def write_app():
     with open(f"{app}/{app}/app.py", "w") as arquivo:
-        arquivo.write(model_app)
+        arquivo.write(app_model)
 
 
 # requirements.txt
@@ -131,25 +143,31 @@ def write_req():
 # requirements-dev.txt
 def write_req_dev():
     with open(f"{app}/requirements-dev.txt", "w") as arquivo:
-        arquivo.write(model_requirements_dev)
+        arquivo.write(requirements_dev_model)
 
 
 # Makefile
 def write_makefile():
     with open(f"{app}/Makefile", "w") as arquivo:
-        arquivo.write(model_makefile)
+        arquivo.write(makefile_model)
 
 
 # setup.py
 def write_setup():
     with open(f"{app}/setup.py", "w") as arquivo:
-        arquivo.write(model_setup)
+        arquivo.write(setup_model)
 
 
 # tests/conftest.py
 def write_coftest():
     with open(f"{app}/tests/conftest.py", "w") as arquivo:
-        arquivo.write(model_conftest)
+        arquivo.write(conftest_model)
+
+
+# tests/test_app.py
+def write_test_app():
+    with open(f"{app}/tests/test_app.py", "w") as arquivo:
+        arquivo.write(test_app_model)
 
 
 # creating and updating virtual env
