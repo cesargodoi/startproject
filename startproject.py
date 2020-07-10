@@ -56,7 +56,7 @@ makefile_model = (
     "install-dev:\n"
     "\tpip install -e .['dev']\n\n"
     "test:\n"
-    "\tpytest tests/ -v --cov=delivery\n"
+    "\tpytest tests/ -v --cov=delivery\n\n"
     "run:\n"
     f"\tFLASK_APP={app}/app flask run\n\n"
     "run-dev:\n"
