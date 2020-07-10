@@ -39,24 +39,29 @@ pytest-cov
 """
 
 # Makefile (model)
-makefile_model = """clean:
-\t@find ./ -name '*.pyc' -exec rm -f {} \;
-\t@find ./ -name 'Thumbs.db' -exec rm -f {} \;
-\t@find ./ -name '*~' -exec rm -f {} \;
-\trm -rf .cache
-\trm -rf build
-\trm -rf dist
-\trm -rf *.egg-info
-\trm -rf htmlcov
-\trm -rf .tox/
-\trm -rf docs/_build
-\ninstall:
-\tpip install -e .
-\ninstall-dev:
-\tpip install -e .['dev']
-\ntest:
-\tpytest tests/ -v --cov=delivery
-"""
+makefile_model = (
+    "clean:\n"
+    "\t@find ./ -name '*.pyc' -exec rm -f {} \;\n"
+    "\t@find ./ -name 'Thumbs.db' -exec rm -f {} \;\n"
+    "\t@find ./ -name '*~' -exec rm -f {} \;\n"
+    "\trm -rf .cache\n"
+    "\trm -rf build\n"
+    "\trm -rf dist\n"
+    "\trm -rf *.egg-info\n"
+    "\trm -rf htmlcov\n"
+    "\trm -rf .tox/\n"
+    "\trm -rf docs/_build\n\n"
+    "install:\n"
+    "\tpip install -e .\n\n"
+    "install-dev:\n"
+    "\tpip install -e .['dev']\n\n"
+    "test:\n"
+    "\tpytest tests/ -v --cov=delivery\n"
+    "run:\n"
+    "\tFLASK_APP=delivery/app flask run\n\n"
+    "run-dev:\n"
+    "\tFLASK_APP=delivery/app FLASK_ENV=development flask run\n\n"
+)
 
 # setup.py (model)
 setup_model = (
