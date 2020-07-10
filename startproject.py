@@ -58,9 +58,9 @@ makefile_model = (
     "test:\n"
     "\tpytest tests/ -v --cov=delivery\n"
     "run:\n"
-    "\tFLASK_APP=delivery/app flask run\n\n"
+    f"\tFLASK_APP={app}/app flask run\n\n"
     "run-dev:\n"
-    "\tFLASK_APP=delivery/app FLASK_ENV=development flask run\n\n"
+    f"\tFLASK_APP={app}/app FLASK_ENV=development flask run\n\n"
 )
 
 # setup.py (model)
