@@ -18,25 +18,21 @@ venv = True if venv not in "Nn" or not venv else False
 # Models for files #############################################################
 
 # app.py (model)
-app_model = """from flask import Flask
-
-def create_app():
-    app = Flask(__name__)
-    return app 
-"""
+app_model = (
+    "from flask import Flask\n"
+    f"from {app}.ext import site\n\n"
+    "def create_app():\n"
+    "\tapp = Flask(__name__)\n"
+    "\t# here we invoke each extension's init_app function\n"
+    "\tsite.init_app(app)\n"
+    "\treturn app\n"
+)
 
 # requirements-dev.py (model)
-requirements_dev_model = """black
-flake8
-flask-debugtoolbar
-flask-shell-ipython
-ipdb
-ipython
-isort
-pytest
-pytest-flask
-pytest-cov
-"""
+requirements_dev_model = (
+    "black\nflake8\nflask-debugtoolbar\nflask-shell-ipython\nipdb\n"
+    "ipython\nisort\npytest\npytest-flask\npytest-cov\n"
+)
 
 # Makefile (model)
 makefile_model = (
@@ -102,6 +98,23 @@ test_app_model = (
     "    assert client.get('/some_invalid_route').status_code == 404\n"
 )
 
+# site/main.py
+main_py_model = (
+    "from flask import render_template\n"
+    "from flask import Blueprint\n"
+    "from flask import current_app\n\n"
+    "bp = Blueprint('site', __name__)\n\n"
+    "@bp.route('/')\n"
+    "def index():\n"
+    f"\treturn 'Hello, {app.upper()}!!'\n"
+)
+# site/__init__.py
+__init__py_model = (
+    "from .main import bp\n\n"
+    "def init_app(app):\n"
+    "\tapp.register_blueprint(bp)\n"
+)
+
 
 # defs #########################################################################
 
@@ -115,18 +128,29 @@ def dir_extrutures():
     os.system(f"touch {app}/requirements.txt")
     os.system(f"touch {app}/requirements-dev.txt")
     os.system(f"touch {app}/setup.py")
+
     # app/app
     os.system(f"mkdir {app}/{app}")
     os.system(f"touch {app}/{app}/app.py")
     os.system(f"touch {app}/{app}/__init__.py")
+
     # app/app/templates
     os.system(f"mkdir {app}/{app}/templates")
+
+    # app/app/static (css, img, js)
+    os.system(f"mkdir {app}/{app}/static")
+    os.system(f"mkdir {app}/{app}/static/css")
+    os.system(f"mkdir {app}/{app}/static/img")
+    os.system(f"mkdir {app}/{app}/static/js")
+
     # app/app/ext
     os.system(f"mkdir {app}/{app}/ext")
     os.system(f"touch {app}/{app}/ext/__init__.py")
+
     # app/app/ext/site
     os.system(f"mkdir {app}/{app}/ext/site")
     os.system(f"touch {app}/{app}/ext/site/__init__.py")
+    os.system(f"touch {app}/{app}/ext/site/main.py")
 
     # app/app/tests
     os.system(f"mkdir {app}/tests")
@@ -144,7 +168,7 @@ def write_app():
 # requirements.txt
 def write_req():
     with open(f"{app}/requirements.txt", "w") as arquivo:
-        arquivo.write("flask")
+        arquivo.write("flask\nflask-sqlalchemy")
 
 
 # requirements-dev.txt
@@ -177,6 +201,18 @@ def write_test_app():
         arquivo.write(test_app_model)
 
 
+# site/main.py
+def write_main_py():
+    with open(f"{app}/{app}/ext/site/main.py", "w") as arquivo:
+        arquivo.write(main_py_model)
+
+
+# site/__init__.py
+def write___init___py():
+    with open(f"{app}/{app}/ext/site/__init__.py", "w") as arquivo:
+        arquivo.write(__init__py_model)
+
+
 # creating and updating virtual env
 def creating_venv():
     os.chdir(f"{app}")
@@ -198,6 +234,8 @@ write_makefile()
 write_setup()
 write_coftest()
 write_test_app()
+write_main_py()
+write___init___py()
 
 if venv:
     print("3 - Creating virtual env (.venv) ...")
