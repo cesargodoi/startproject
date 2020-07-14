@@ -22,10 +22,10 @@ app_model = (
     "from flask import Flask\n"
     f"from {app}.ext import site\n\n"
     "def create_app():\n"
-    "\tapp = Flask(__name__)\n"
-    "\t# here we invoke each extension's init_app function\n"
-    "\tsite.init_app(app)\n"
-    "\treturn app\n"
+    "    app = Flask(__name__)\n"
+    "    # here we invoke each extension's init_app function\n"
+    "    site.init_app(app)\n"
+    "    return app\n"
 )
 
 # requirements-dev.py (model)
@@ -106,13 +106,13 @@ main_py_model = (
     "bp = Blueprint('site', __name__)\n\n"
     "@bp.route('/')\n"
     "def index():\n"
-    f"\treturn 'Hello, {app.upper()}!!'\n"
+    f"    return 'Hello, {app.upper()}!!'\n"
 )
 # site/__init__.py
 __init__py_model = (
     "from .main import bp\n\n"
     "def init_app(app):\n"
-    "\tapp.register_blueprint(bp)\n"
+    "    app.register_blueprint(bp)\n"
 )
 
 
