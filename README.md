@@ -1,7 +1,7 @@
-# flask startproject
-Script to start a flask project in the application factory model      
+# Flask Project Builder
+This script will start a new Flask project on the application factory model.      
 
-## This script creates the following structure
+## structure provided
 ~~~sh
 <project name>/
 +-- <project name>/
@@ -32,17 +32,25 @@ Script to start a flask project in the application factory model
 1. Copy the file `startproject.py` to the directory where you will create the flask project.   
 2. Run with the command:
 ~~~sh
-$ python3 startproject.py
+$ python3 startproject.py your_project_name -v
 ~~~
-3. When asked, enter the project name _(spaces will be changed to underscores)_.
-4. If you need to create the virtual environment, confirm it.   
+> IMPORTANT
+> - Do not use spaces in your project name.  Prefer underscores instead spaces.
+> - The `-v` argument indicates that you want to create a virtual environment.  It will be created inside the project's root folder as .venv.
+> - If you don't pass any arguments, they will be asked for you.   
+   
 
-If you chose to install the virtual environment, don't forget to update the pip:
-~~~sh
-$ cd <name_you_gave_your_project>
-$ source .venv/bin/activate # if you use fish .venv/bin/activate.fish
-$ pip install --upgrade pip
-$ pip install -q -r requirements.txt
-~~~
+In the `Makefile` file, we have some useful commands, which we use with the `make` command, such as:   
+
+| **command**        | **what he does**                                  |
+|--------------------|---------------------------------------------------|
+| `make clean`       | clears the project folder                         |
+| `make install`     | install our project as a package python           |
+| `make install-dev` | similar to install, but with requirements-dev.txt |
+| `make test`        | run tests                                         |
+| `make run`         | run flask                                         |
+| `make run-dev`     | run flask in the development environment          |
+
+---
 
 This python script was created by Cesar and Jady Godoi during [Curso de Desenvolvimento Web](http://skip.gg/curso-flask-codeshow) taught by Bruno Rocha.
