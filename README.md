@@ -36,7 +36,7 @@ $ python3 startproject.py your_project_name -v
 ~~~
 > IMPORTANT
 > - Do not use spaces in your project name.  Prefer underscores instead spaces.
-> - The `-v` argument indicates that you want to create a virtual environment.  It will be created inside the project's root folder as .venv.
+> - The `-v` argument indicates that you want to create a virtual environment.  It will be created inside the project's root folder as `.venv`.
 > - If you don't pass any arguments, they will be asked for you.   
    
 
