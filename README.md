@@ -1,7 +1,7 @@
 # Flask Project Builder
 This script will start a new Flask project on the application factory model.      
 
-## structure provided
+## Structure provided
 ~~~sh
 <project name>/
 +-- <project name>/
