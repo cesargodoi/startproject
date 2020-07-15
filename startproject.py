@@ -161,10 +161,8 @@ else:
         proj = input().replace(" ", "_")
     # whether or not to use a virtual environment
     print("Do you want to use the .venv? (Y/n)")
-    venv = " "
-    while venv not in ["Y", "y", "S", "s", "N", "n", ""]:
-        venv = input()
-    venv = True if venv not in "Nn" or not venv else False
+    venv = input()
+    venv = True if venv in "YySs" else False
 
 project = Project(proj)
 
