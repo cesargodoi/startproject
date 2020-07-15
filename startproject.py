@@ -38,9 +38,9 @@ class Project:
             "test:\n"
             "\tpytest tests/ -v --cov=delivery\n\n"
             "run:\n"
-            f"\tFLASK_proj={self.proj}/app.py flask run\n\n"
+            f"\tFLASK_APP={self.proj}/app.py flask run\n\n"
             "run-dev:\n"
-            f"\tFLASK_proj={self.proj}/app.py FLASK_ENV=development flask run\n\n"
+            f"\tFLASK_APP={self.proj}/app.py FLASK_ENV=development flask run\n\n"
         )
         self.setup = (
             "from setuptools import setup, find_packages\n\n"
