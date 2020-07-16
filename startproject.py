@@ -194,7 +194,7 @@ if sys.argv[1:]:
     sqlal = True if "--sqlal" in sys.argv[1:] else False
 
 while not proj:
-    print("Enter the name of the project.")
+    print("Enter the project name.")
     proj = input().replace(" ", "_")
 
 # to use a virtual environment?
