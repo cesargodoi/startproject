@@ -32,11 +32,12 @@ This script will start a new Flask project on the application factory model.
 1. Copy the file `startproject.py` to the directory where you will create the flask project.   
 2. Run with the command:
 ~~~sh
-$ python3 startproject.py your_project_name -v
+$ python3 startproject.py your_project_name --venv --sqlal
 ~~~
 > IMPORTANT
 > - Do not use spaces in your project name.  Prefer underscores instead spaces.
-> - The `-v` argument indicates that you want to create a virtual environment.  It will be created inside the project's root folder as `.venv`.
+> - The `--venv` argument indicates that you want to create a virtual environment.  It will be created inside the project's root folder as `.venv`.
+> - The `--sqlal` argument indicates that you want to install SQLAlchemy in your project.
 > - If you don't pass any arguments, they will be asked for you.   
    
 

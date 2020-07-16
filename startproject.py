@@ -3,18 +3,12 @@ import sys
 
 
 class Project:
-    def __init__(self, proj):
+    def __init__(self, proj, sqlal):
         self.proj = proj
-        self.app = (
-            "from flask import Flask\n"
-            f"from {self.proj}.ext import site\n\n"
-            "def create_app():\n"
-            "    app = Flask(__name__)\n"
-            "    # here we invoke each extension's init_proj function\n"
-            "    site.init_app(app)\n"
-            "    return app\n"
-        )
-        self.requirements = "flask\nflask-sqlalchemy\n"
+        self.sqlal = sqlal
+
+        requirements = "flask\nflask-sqlalchemy\n" if self.sqlal else "flask\n"
+        self.requirements = requirements
         self.requirements_dev = (
             "black\nflake8\nflask-debugtoolbar\nflask-shell-ipython\nipdb\n"
             "ipython\nisort\npytest\npytest-flask\npytest-cov\n"
@@ -86,6 +80,34 @@ class Project:
             "def init_app(app):\n"
             "    app.register_blueprint(bp)\n"
         )
+        if self.sqlal:
+            self.init_py_db = (
+                "from flask_sqlalchemy import SQLAlchemy\n\n"
+                "db = SQLAlchemy()\n\n"
+                "def init_app(app):\n"
+                "    db.init_app(app)\n"
+            )
+            self.init_py_config = (
+                "def init_app(app):\n"
+                "    app.config['SECRET_KEY'] = 'super_secret'\n"
+                "    app.config['SQLALCHEMY_DATABASE_URI'] = "
+                f"'sqlite:///{proj}.db'\n"
+            )
+
+        imports = "site, config, db" if self.sqlal else "site"
+        config_and_db = (
+            "config.init_app(app)\n    db.init_app(app)\n" if self.sqlal else ""
+        )
+        self.app = (
+            "from flask import Flask\n"
+            f"from {self.proj}.ext import {imports}\n\n"
+            "def create_app():\n"
+            "    app = Flask(__name__)\n"
+            f"    {config_and_db}\n"
+            "    # here we invoke each extension's init_app function\n\n"
+            "    site.init_app(app)\n"
+            "    return app\n"
+        )
 
     def dir_extrutures(self):
         print("\n1 - Creating the directories extruture ...")
@@ -104,6 +126,9 @@ class Project:
         os.system(f"mkdir {self.proj}/{self.proj}/ext")
         # /proj/ext/site
         os.system(f"mkdir {self.proj}/{self.proj}/ext/site")
+        if self.sqlal:
+            os.system(f"mkdir {self.proj}/{self.proj}/ext/db")
+            os.system(f"mkdir {self.proj}/{self.proj}/ext/config")
         # /proj/tests
         os.system(f"mkdir {self.proj}/tests")
 
@@ -129,14 +154,24 @@ class Project:
             fl.write(self.conftest)
         with open(f"{self.proj}/tests/test_app.py", "w") as fl:
             fl.write(self.test_app)
-        # /ext
+        # /proj/ext
         os.system(f"touch {self.proj}/{self.proj}/ext/__init__.py")
 
-        # /ext/site
+        # /proj/ext/site
         with open(f"{self.proj}/{self.proj}/ext/site/main.py", "w") as fl:
             fl.write(self.main_py_site)
         with open(f"{self.proj}/{self.proj}/ext/site/__init__.py", "w") as fl:
             fl.write(self.init_py_site)
+
+        if self.sqlal:
+            # /proj/ext/config
+            with open(
+                f"{self.proj}/{self.proj}/ext/config/__init__.py", "w"
+            ) as fl:
+                fl.write(self.init_py_config)
+            # /proj/ext/db
+            with open(f"{self.proj}/{self.proj}/ext/db/__init__.py", "w") as fl:
+                fl.write(self.init_py_db)
 
     def create_venv(self):
         print("3 - Creating virtual env (.venv) ...")
@@ -148,23 +183,31 @@ class Project:
 
 # Starting project #############################################################
 
-print("\n### Flask Project Builder ###")
+print("\n### Flask Project Builder ###\n")
 
-# getting the project name
+proj, venv, sqlal = "", None, None
+
+# trying to get: proj, venv and sqlal on the command line
 if sys.argv[1:]:
     proj = sys.argv[1]
-    venv = True if len(sys.argv[1:]) == 2 and sys.argv[2] == "-v" else False
-else:
-    proj = ""
-    while not proj:
-        print("\nEnter the name of the project.")
-        proj = input().replace(" ", "_")
-    # whether or not to use a virtual environment
-    print("Do you want to use the .venv? (Y/n)")
-    venv = input()
-    venv = True if venv in "YySs" else False
+    venv = True if "--venv" in sys.argv[1:] else False
+    sqlal = True if "--sqlal" in sys.argv[1:] else False
 
-project = Project(proj)
+while not proj:
+    print("Enter the name of the project.")
+    proj = input().replace(" ", "_")
+
+# to use a virtual environment?
+if not venv:
+    print("Do you want to use the .venv? (Y/n)")
+    venv = True if input() in "YySs" else False
+
+# to use SQLAlchemy?
+if not sqlal:
+    print("Do you want to use the SQLAlchemy? (Y/n)")
+    sqlal = True if input() in "YySs" else False
+
+project = Project(proj, sqlal)
 
 project.dir_extrutures()
 project.write_files()
