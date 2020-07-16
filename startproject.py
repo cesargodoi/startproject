@@ -95,6 +95,7 @@ class Project:
                 "    if app.debug:\n"
                 "        app.config['DEBUG_TB_TEMPLATE_EDITOR_ENABLED'] = True\n"
                 "        app.config['DEBUG_TB_PROFILER_ENABLED'] = True\n"
+                "        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False\n"
             )
 
         imports = "site, config, db" if self.sqlal else "site"
