@@ -91,7 +91,10 @@ class Project:
                 "def init_app(app):\n"
                 "    app.config['SECRET_KEY'] = 'super_secret'\n"
                 "    app.config['SQLALCHEMY_DATABASE_URI'] = "
-                f"'sqlite:///{proj}.db'\n"
+                f"'sqlite:///{proj}.db'\n\n"
+                "    if app.debug:\n"
+                "        app.config['DEBUG_TB_TEMPLATE_EDITOR_ENABLED'] = True\n"
+                "        app.config['DEBUG_TB_PROFILER_ENABLED'] = True\n"
             )
 
         imports = "site, config, db" if self.sqlal else "site"
