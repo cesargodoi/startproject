@@ -64,7 +64,8 @@ class Project:
             "def test_app_is_created(app):\n"
             f"    assert app.name == '{self.proj}.app'\n\n"
             "def test_config_is_loaded(config):\n"
-            "    assert config['DEBUG'] is False\n\n"
+            "    assert config['DEBUG'] is False"
+            " # is True if FLASK_ENV=development\n\n"
             "def test_request_returns_404(client):\n"
             "    assert client.get('/some_invalid_route').status_code == 404\n"
         )
@@ -212,7 +213,6 @@ if not sqlal:
     sqlal = True if input() in "YySs" else False
 
 project = Project(proj, sqlal)
-
 project.dir_extrutures()
 project.write_files()
 if venv:
