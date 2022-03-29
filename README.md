@@ -11,7 +11,7 @@ This script will start a new Flask project on the application factory model.
 |   |   |   +-- main.py
 |   |   +-- __init__.py
 |   +-- static/
-|   |   +-- ccs/
+|   |   +-- css/
 |   |   +-- img/
 |   |   +-- js/
 |   +-- templates/
